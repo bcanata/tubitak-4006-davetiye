@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { BodyWrapper } from "@/components/body-wrapper/BodyWrapper";
+import { SITE_CONFIG } from "@/config/site.config";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,17 +15,17 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://velikoyosbmtal-tubitak4006.vercel.app'),
-  title: "Veliköy OSB MTAL - TÜBİTAK 4006 Okul Fuarı",
-  description: "Veliköy OSB Mesleki ve Teknik Anadolu Lisesi'nde düzenlenen TÜBİTAK 4006 Bilim Fuarı'na davetlisiniz! 14 Mayıs 2025, 14.00'te okulumuzda gerçekleşecek bu özel etkinliğe katılımınızdan mutluluk duyarız.",
+  metadataBase: new URL(SITE_CONFIG.url),
+  title: SITE_CONFIG.title,
+  description: SITE_CONFIG.description,
   openGraph: {
-    title: "Veliköy OSB MTAL - TÜBİTAK 4006 Okul Fuarı",
-    description: "Veliköy OSB Mesleki ve Teknik Anadolu Lisesi'nde düzenlenen TÜBİTAK 4006 Bilim Fuarı'na davetlisiniz! 14 Mayıs 2025, 14.00'te okulumuzda gerçekleşecek bu özel etkinliğe katılımınızdan mutluluk duyarız.",
-    url: "https://velikoyosbmtal-tubitak4006.vercel.app/",
-    siteName: "Veliköy OSB MTAL - TÜBİTAK 4006 Okul Fuarı",
+    title: SITE_CONFIG.title,
+    description: SITE_CONFIG.description,
+    url: SITE_CONFIG.url + "/",
+    siteName: SITE_CONFIG.title,
     images: [
       {
-        url: "/1.png",
+        url: SITE_CONFIG.ogImage,
         width: 1200,
         height: 630,
         alt: "Veliköy OSB MTAL TÜBİTAK 4006 Okul Fuarı Davetiyesi"
@@ -34,9 +36,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Veliköy OSB MTAL - TÜBİTAK 4006 Okul Fuarı",
-    description: "Veliköy OSB Mesleki ve Teknik Anadolu Lisesi'nde düzenlenen TÜBİTAK 4006 Bilim Fuarı'na davetlisiniz! 14 Mayıs 2025, 14.00'te okulumuzda gerçekleşecek bu özel etkinliğe katılımınızdan mutluluk duyarız.",
-    images: ["/1.png"]
+    title: SITE_CONFIG.title,
+    description: SITE_CONFIG.description,
+    images: [SITE_CONFIG.ogImage]
   }
 };
 
@@ -46,7 +48,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="tr">
       <head>
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -59,7 +61,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <BodyWrapper>
+          {children}
+        </BodyWrapper>
       </body>
     </html>
   );

@@ -1,0 +1,30 @@
+@media print {
+  /* Hide non-essential elements */
+  .no-print {
+    display: none !important;
+  }
+
+  /* Reset background for print */
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  /* Ensure invitation card is visible */
+  [data-invitation-card] {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Make images printable */
+  img {
+    max-width: 100%;
+    page-break-inside: avoid;
+  }
+
+  /* Remove shadows and transitions for print */
+  * {
+    box-shadow: none !important;
+    transition: none !important;
+  }
+}
