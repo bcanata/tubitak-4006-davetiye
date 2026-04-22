@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import "./globals.css";
 import { BodyWrapper } from "@/components/body-wrapper/BodyWrapper";
 import { SITE_CONFIG } from "@/config/site.config";
@@ -12,6 +12,13 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const fraunces = Fraunces({
+  variable: "--font-display",
+  subsets: ["latin"],
+  weight: ["300", "400", "700", "900"],
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
@@ -50,6 +57,7 @@ export default function RootLayout({
   return (
     <html lang="tr">
       <head>
+        <meta name="theme-color" content={SITE_CONFIG.themeColor} />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
@@ -58,9 +66,7 @@ export default function RootLayout({
         <link rel="manifest" href="/site.webmanifest" />
         <link rel="shortcut icon" href="/favicon.ico" />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} antialiased`}>
         <BodyWrapper>
           {children}
         </BodyWrapper>

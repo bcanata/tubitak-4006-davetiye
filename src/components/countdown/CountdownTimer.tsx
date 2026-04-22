@@ -12,23 +12,27 @@ export function CountdownTimer({ onComplete }: CountdownTimerProps) {
     <Countdown
       date={new Date(EVENT_CONFIG.startDate)}
       renderer={({ days, hours, minutes, seconds, completed }) => {
-        if (completed && onComplete) {
-          onComplete();
-        }
+        if (completed && onComplete) onComplete();
 
         return completed ? (
-          <div className="bg-[color:var(--foreground)] text-[color:var(--background)] rounded-xl px-10 py-4 shadow-lg text-2xl font-bold flex items-center justify-center animate-pulse mb-8 mt-2 tracking-wide">
+          <div
+            className="font-display italic font-bold rounded-xl px-10 py-4 shadow-lg text-2xl flex items-center justify-center animate-pulse"
+            style={{ background: "var(--brand)", color: "var(--background)" }}
+          >
             {UI_CONFIG.countdown.completedMessage}
           </div>
         ) : (
-          <div className="w-full flex flex-col items-center mb-8 mt-2">
-            <div className="text-center mb-2 text-[color:var(--foreground)] text-lg font-medium">
+          <div className="flex flex-col items-center gap-3">
+            <p className="text-xs font-semibold tracking-[0.15em] uppercase" style={{ color: "var(--foreground)", opacity: 0.45 }}>
               {EVENT_CONFIG.shortName}&apos;na Kalan Süre
-            </div>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <TimeUnit value={days} label={UI_CONFIG.countdown.labels.days} />
-              <TimeUnit value={hours} label={UI_CONFIG.countdown.labels.hours} />
+            </p>
+            <div className="flex items-start gap-1 sm:gap-2">
+              <TimeUnit value={days}    label={UI_CONFIG.countdown.labels.days} />
+              <Separator />
+              <TimeUnit value={hours}   label={UI_CONFIG.countdown.labels.hours} />
+              <Separator />
               <TimeUnit value={minutes} label={UI_CONFIG.countdown.labels.minutes} />
+              <Separator />
               <TimeUnit value={seconds} label={UI_CONFIG.countdown.labels.seconds} />
             </div>
           </div>
@@ -38,13 +42,43 @@ export function CountdownTimer({ onComplete }: CountdownTimerProps) {
   );
 }
 
+function Separator() {
+  return (
+    <span
+      className="text-2xl sm:text-3xl font-bold mt-1 select-none"
+      style={{ color: "var(--brass)", fontFamily: "var(--font-geist-mono, monospace)" }}
+      aria-hidden
+    >
+      :
+    </span>
+  );
+}
+
 function TimeUnit({ value, label }: { value: number; label: string }) {
   return (
-    <div className="flex flex-col items-center">
-      <div className="bg-[color:var(--foreground)] text-[color:var(--background)] rounded-lg px-4 py-3 shadow-lg min-w-[80px] text-center">
-        <span className="text-2xl font-bold">{value}</span>
+    <div className="flex flex-col items-center gap-1">
+      <div
+        className="rounded-lg px-3 py-2 sm:px-4 sm:py-3 shadow-sm min-w-[60px] sm:min-w-[76px] text-center"
+        style={{
+          background: "var(--background)",
+          border: "1.5px solid var(--brand)",
+          boxShadow: "0 1px 4px rgba(0,0,0,0.08)"
+        }}
+      >
+        <span
+          className="text-2xl sm:text-3xl font-bold tabular-nums"
+          style={{
+            fontFamily: "var(--font-geist-mono, monospace)",
+            color: "var(--foreground)",
+            fontVariantNumeric: "tabular-nums"
+          }}
+        >
+          {String(value).padStart(2, "0")}
+        </span>
       </div>
-      <span className="mt-1 text-sm font-medium text-[color:var(--foreground)]">{label}</span>
+      <span className="text-[10px] sm:text-xs font-semibold tracking-wider uppercase" style={{ color: "var(--foreground)", opacity: 0.5 }}>
+        {label}
+      </span>
     </div>
   );
 }

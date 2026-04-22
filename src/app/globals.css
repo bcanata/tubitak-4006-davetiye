@@ -2,11 +2,21 @@
 @import "../styles/print.css";
 
 :root {
-  --background: #D9D9D9;
-  --foreground: #00703C;
-  --gray-light: #D9D9D9;
-  --gray-medium: #B3B3B3;
-  --gray-dark: #4D4D4D;
+  --background: #F5F1E8;
+  --foreground: #0E1F16;
+  --brand: #00703C;
+  --brand-dark: #005a30;
+  --brass: #C89B3C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0E1F16;
+    --foreground: #E8E4D9;
+    --brand: #2D9E5F;
+    --brand-dark: #3AB972;
+    --brass: #D4A84B;
+  }
 }
 
 @theme inline {
@@ -16,32 +26,74 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #4D4D4D;
-    --foreground: #D9D9D9;
-    --gray-light: #B3B3B3;
-    --gray-medium: #4D4D4D;
-    --gray-dark: #171717;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans, system-ui, sans-serif);
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: 0.035;
+}
+
+.font-display {
+  font-family: var(--font-display, Georgia, serif);
+  font-optical-sizing: auto;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-5px); }
+}
+
+@keyframes share-enter {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.anim-enter { animation: fade-up 0.55s ease both; }
+.anim-d1    { animation-delay: 0.06s; }
+.anim-d2    { animation-delay: 0.14s; }
+.anim-d3    { animation-delay: 0.22s; }
+.anim-d4    { animation-delay: 0.30s; }
+.anim-d5    { animation-delay: 0.38s; }
+
+.anim-bob { animation: bob 2.4s ease-in-out infinite; }
+
+.animate-share-enter { animation: share-enter 0.15s ease both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-enter,
+  .anim-bob,
+  .animate-share-enter { animation: none !important; }
 }
 
 .btn-primary {
-  @apply w-full px-6 py-3 rounded-lg shadow font-semibold text-lg text-center transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[color:var(--foreground)] active:scale-95;
-  background-color: var(--foreground);
+  @apply w-full px-6 py-3 rounded-lg shadow font-semibold text-base text-center transition-all duration-200 focus:outline-none active:scale-95 flex items-center justify-center gap-2;
+  background-color: var(--brand);
   color: var(--background);
 }
+.btn-primary:hover  { background-color: var(--brand-dark); }
+.btn-primary:focus  { box-shadow: 0 0 0 2px var(--brass); }
 
-.btn-primary:hover {
-  background-color: var(--gray-dark);
+.btn-secondary {
+  @apply px-4 py-3 rounded-lg font-semibold text-sm text-center transition-all duration-200 focus:outline-none active:scale-95 flex items-center justify-center gap-1.5;
+  border: 1.5px solid var(--brand);
+  color: var(--brand);
+  background: transparent;
 }
-
-.btn-primary:focus {
-  background-color: var(--gray-medium);
-}
+.btn-secondary:hover { background-color: var(--brand); color: var(--background); }
+.btn-secondary:focus { box-shadow: 0 0 0 2px var(--brass); }
